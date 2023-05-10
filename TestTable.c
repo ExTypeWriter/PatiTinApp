@@ -20,6 +20,7 @@ static gboolean on_update_time(gpointer userdata)
 
 int main(int argc, char **argv)
 {
+    // Declaration for event.c
     Year *Patitin = createYear(-1);
     Stack *outdate = createStack(100);
     char buffer[10];
@@ -27,6 +28,8 @@ int main(int argc, char **argv)
     int year = -1, month = -1, day = -1, favorite = -1;
     char start[12], end[12], event[3000];
     readTextFile(Patitin);
+
+    // Interface part
     gtk_init (&argc ,&argv);
     GtkWidget *window, *box1, *btn1, *btn2, *btn3, *btn4, *btn5, *btn6, *btn7, *btnCurrtime, *labelC, *labelT, *grid;
     GtkContainer *main_container;
@@ -84,6 +87,14 @@ int main(int argc, char **argv)
     sprintf(text, "Paitin App.");
     gtk_label_set_markup(GTK_LABEL(labelT), text);
     // Button function
+    g_signal_connect(btn1, "clicked", G_CALLBACK(on_button_clicked), NULL); // Connect the "clicked" signal of btn1 to the callback function
+    g_signal_connect(btn2, "clicked", G_CALLBACK(on_button_clicked), NULL);
+    g_signal_connect(btn3, "clicked", G_CALLBACK(on_button_clicked), NULL);
+    g_signal_connect(btn4, "clicked", G_CALLBACK(on_button_clicked), NULL);
+    g_signal_connect(btn5, "clicked", G_CALLBACK(on_button_clicked), NULL);
+    g_signal_connect(btn6, "clicked", G_CALLBACK(on_button_clicked), NULL);
+    g_signal_connect(btn7, "clicked", G_CALLBACK(on_button_clicked), NULL);
+    // Window destroy handler
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
     gtk_widget_show_all(window);
     gtk_main();
