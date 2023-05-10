@@ -6,7 +6,6 @@
                 "${workspaceFolder}/**",
                 "/usr/include/gtk-3.0",
                 "/usr/include/gtk-3.0/gtk",
-                "/usr/include/vte-2.91/vte",
                 "/usr/include/glib-2.0"
             ],
             "defines": [],
