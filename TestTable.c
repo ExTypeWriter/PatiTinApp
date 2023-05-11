@@ -5,6 +5,8 @@
 #include <gtk/gtk.h>
 #include <time.h>
 
+static void on_button_clicked(GtkButton *button, gpointer userdata);
+
 static gboolean on_update_time(gpointer userdata)
 {
     GtkWidget *label = GTK_WIDGET(userdata);
@@ -30,12 +32,24 @@ int main(int argc, char **argv)
     readTextFile(Patitin);
 
     // Interface part
-    gtk_init (&argc ,&argv);
+    gtk_init(&argc, &argv);
     GtkWidget *window, *box1, *btn1, *btn2, *btn3, *btn4, *btn5, *btn6, *btn7, *btnCurrtime, *labelC, *labelT, *grid;
     GtkContainer *main_container;
     char *app_title = "PaiTin2";
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     main_container = GTK_CONTAINER(window);
+    // CSS Styling
+    GtkCssProvider *provider;
+    GdkDisplay *display;
+    GdkScreen *screen;
+
+    provider = gtk_css_provider_new();
+    display = gdk_display_get_default();
+    screen = gdk_display_get_default_screen(display);
+
+    gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    gtk_css_provider_load_from_path(provider, "home/pichawat/Downloads/style.css", NULL);
+    g_object_unref(provider);
     // Windows configuration
     gtk_window_set_title(GTK_WINDOW(window), app_title);
     gtk_window_set_decorated(GTK_WINDOW(window), TRUE);
@@ -101,81 +115,83 @@ int main(int argc, char **argv)
     return 0;
 }
 
-// static void on_button_clicked(GtkButton *button, gpointer userdata)
-// {
-//     const gchar *label = gtk_button_get_label(button);
-//     Year *Patitin = createYear(-1);
-//     Stack *outdate = createStack(100);
-//     char buffer[10];
-//     int cmd;
-//     int year = -1, month = -1, day = -1, favorite = -1;
-//     char start[12], end[12], event[3000];
-//     readTextFile(Patitin);
-//     if (strcmp(label, "Create Task") == 0)
-//     {
-//         // printf("Incase!\n");
-//         userInput(&year, &month, &day, start, end, event, &favorite, 1);
-//         insert(Patitin, year, month, day, start, end, event, favorite);
-//     }
-//     else if (strcmp(label, "All Task") == 0)
-//     {
-//         // printf("Incase!\n");
-//         int allTask = 0;
-//         displayAll(Patitin, 2, &allTask);
-//     }
-//     else if (strcmp(label, "Outdated") == 0)
-//     {
-//         displayOutdated(outdate);
-//     }
-//     else if (strcmp(label, "Favorited") == 0)
-//     {
-//         displayFavorite(Patitin);
-//     }
-//     else if (strcmp(label, "Delete Task") == 0)
-//     {
-//         printf("Please input date to show all Lists in that day\n");
-//         userInput(&year, &month, &day, start, end, event, &favorite, 2);
-//         deleteEvent(Patitin, outdate, year, month, day);
-//     }
-//     else if (strcmp(label, "Search") == 0)
-//     {
-//         printf("Please insert date and name to search\n");
-//         printf("(leave \"--\" if don't want to search in that fields)\n");
-//         printf("*** for now you can only search by only one fields at the time "
-//                "***\n");
-//         userInput(&year, &month, &day, start, end, event, &favorite, 3);
+static void on_button_clicked(GtkButton *button, gpointer userdata)
+{
+    const gchar *label = gtk_button_get_label(button);
+    Year *Patitin = createYear(-1);
+    Stack *outdate = createStack(100);
+    char buffer[10];
+    int cmd;
+    int year = -1, month = -1, day = -1, favorite = -1;
+    char start[12], end[12], event[3000];
+    readTextFile(Patitin);
+    if (strcmp(label, "Create Task") == 0)
+    {
+        // printf("Incase!\n");
+        userInput(&year, &month, &day, start, end, event, &favorite, 1);
+        insert(Patitin, year, month, day, start, end, event, favorite);
+    }
+    else if (strcmp(label, "All Task") == 0)
+    {
+        // printf("Incase!\n");
+        int allTask = 0;
+        displayAll(Patitin, 2, &allTask);
+    }
+    else if (strcmp(label, "Outdated") == 0)
+    {
+        displayOutdated(outdate);
+    }
+    else if (strcmp(label, "Favorited") == 0)
+    {
+        displayFavorite(Patitin);
+    }
+    else if (strcmp(label, "Delete Task") == 0)
+    {
+        printf("Please input date to show all Lists in that day\n");
+        userInput(&year, &month, &day, start, end, event, &favorite, 2);
+        deleteEvent(Patitin, outdate, year, month, day);
+    }
+    else if (strcmp(label, "Search") == 0)
+    {
+        printf("Please insert date and name to search\n");
+        printf("(leave \"--\" if don't want to search in that fields)\n");
+        printf("*** for now you can only search by only one fields at the time "
+               "***\n");
+        userInput(&year, &month, &day, start, end, event, &favorite, 3);
 
-//         // searchByDate
-//         if (day != -1 && month != -1 && year != -1 && !strcmp(event, "--"))
-//         {
-//             displayByDate(Patitin, year, month, day);
-//         }
-//         // searchByDay
-//         else if (day != -1 && month == -1 && year == -1 && !strcmp(event, "--"))
-//         {
-//             displayByDay(Patitin, day);
-//         }
-//         // searchByMonth
-//         else if (day == -1 && month != -1 && year == -1 && !strcmp(event, "--"))
-//         {
-//             displayByMonth(Patitin, month);
-//         }
-//         // searchByYear
-//         else if (day == -1 && month == -1 && year != -1 && !strcmp(event, "--"))
-//         {
-//             displayByYear(Patitin, year);
-//         }
-//         // searchByName
-//         else if (day == -1 && month == -1 && year == -1 && strcmp(event, "--"))
-//         {
-//             displayByEvent(Patitin, event);
-//         }
-//     }
-//     else if (strcmp(label, "Edit Task") == 0)
-//     {
-//         printf("Please input date to show all Lists in that day\n");
-//         userInput(&year, &month, &day, start, end, event, &favorite, 2);
-//         edit(Patitin, year, month, day);
-//     }
-//     printf("%s Pressed!\n", label);
-// }
+        // searchByDate
+        if (day != -1 && month != -1 && year != -1 && !strcmp(event, "--"))
+        {
+            displayByDate(Patitin, year, month, day);
+        }
+        // searchByDay
+        else if (day != -1 && month == -1 && year == -1 && !strcmp(event, "--"))
+        {
+            displayByDay(Patitin, day);
+        }
+        // searchByMonth
+        else if (day == -1 && month != -1 && year == -1 && !strcmp(event, "--"))
+        {
+            displayByMonth(Patitin, month);
+        }
+        // searchByYear
+        else if (day == -1 && month == -1 && year != -1 && !strcmp(event, "--"))
+        {
+            displayByYear(Patitin, year);
+        }
+        // searchByName
+        else if (day == -1 && month == -1 && year == -1 && strcmp(event, "--"))
+        {
+            displayByEvent(Patitin, event);
+        }
+    }
+    else if (strcmp(label, "Edit Task") == 0)
+    {
+        printf("Please input date to show all Lists in that day\n");
+        userInput(&year, &month, &day, start, end, event, &favorite, 2);
+        edit(Patitin, year, month, day);
+    }
+    saveToText(Patitin);
+    saveToOutdated(outdate);
+    printf("%s Pressed!\n", label);
+}
