@@ -35,21 +35,18 @@ int main(int argc, char **argv)
     gtk_init(&argc, &argv);
     GtkWidget *window, *box1, *btn1, *btn2, *btn3, *btn4, *btn5, *btn6, *btn7, *btnCurrtime, *labelC, *labelT, *grid;
     GtkContainer *main_container;
+    GtkCssProvider *provider;
     char *app_title = "PaiTin2";
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     main_container = GTK_CONTAINER(window);
-    // CSS Styling
-    GtkCssProvider *provider;
-    GdkDisplay *display;
-    GdkScreen *screen;
-
+    // CSS BG Styling
+    GtkStyleContext *context;
     provider = gtk_css_provider_new();
-    display = gdk_display_get_default();
-    screen = gdk_display_get_default_screen(display);
+    gtk_css_provider_load_from_path(provider, "style.css", NULL);
+    context = gtk_widget_get_style_context(window);
+    gtk_style_context_add_class(context, "window");
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
-    gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-    gtk_css_provider_load_from_path(provider, "home/pichawat/Downloads/style.css", NULL);
-    g_object_unref(provider);
     // Windows configuration
     gtk_window_set_title(GTK_WINDOW(window), app_title);
     gtk_window_set_decorated(GTK_WINDOW(window), TRUE);
@@ -60,6 +57,7 @@ int main(int argc, char **argv)
     grid = gtk_grid_new();
     gtk_grid_set_column_homogeneous(GTK_GRID(grid), TRUE);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 10);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 10);
     // Set the number of columns in the grid to 2
     gtk_grid_insert_column(GTK_GRID(grid), 0); // Insert first column
     gtk_grid_insert_column(GTK_GRID(grid), 1); // Insert second column
@@ -74,8 +72,49 @@ int main(int argc, char **argv)
     btn6 = gtk_button_new_with_label("Search");
     btn7 = gtk_button_new_with_label("Edit Task");
     btnCurrtime = gtk_button_new_with_label("Current time.");
+    // CSS BTN1 Styling
+    GtkStyleContext *btn_context;
+    btn_context = gtk_widget_get_style_context(btn1);
+    gtk_style_context_add_class(btn_context, "button");
+    gtk_style_context_add_provider(btn_context, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    // CSS BTN2 Styling
+    GtkStyleContext *btn_context1;
+    btn_context1 = gtk_widget_get_style_context(btn2);
+    gtk_style_context_add_class(btn_context1, "buttonN");
+    gtk_style_context_add_provider(btn_context1, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    // CSS BTN3 Styling
+    GtkStyleContext *btn_context2;
+    btn_context2 = gtk_widget_get_style_context(btn3);
+    gtk_style_context_add_class(btn_context2, "buttonN");
+    gtk_style_context_add_provider(btn_context2, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    // CSS BTN4 Styling
+    GtkStyleContext *btn_context3;
+    btn_context3 = gtk_widget_get_style_context(btn4);
+    gtk_style_context_add_class(btn_context3, "buttonN");
+    gtk_style_context_add_provider(btn_context3, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    // CSS BTN5 Styling
+    GtkStyleContext *btn_context4;
+    btn_context4 = gtk_widget_get_style_context(btn5);
+    gtk_style_context_add_class(btn_context4, "buttonB");
+    gtk_style_context_add_provider(btn_context4, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    // CSS BTN6 Styling
+    GtkStyleContext *btn_context5;
+    btn_context5 = gtk_widget_get_style_context(btn6);
+    gtk_style_context_add_class(btn_context5, "buttonN");
+    gtk_style_context_add_provider(btn_context5, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    // CSS BTN3 Styling
+    GtkStyleContext *btn_context6;
+    btn_context6 = gtk_widget_get_style_context(btn7);
+    gtk_style_context_add_class(btn_context6, "buttonN");
+    gtk_style_context_add_provider(btn_context6, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    // CSS CurrBTN Styling
+    GtkStyleContext *btn_context7;
+    btn_context7 = gtk_widget_get_style_context(btnCurrtime);
+    gtk_style_context_add_class(btn_context7, "buttonN");
+    gtk_style_context_add_provider(btn_context7, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
     // Clock widget
     labelC = gtk_label_new(NULL);
+    // App banner
     labelT = gtk_label_new(NULL);
     g_timeout_add(100, on_update_time, labelC);
     // Main container
@@ -94,12 +133,28 @@ int main(int argc, char **argv)
     gtk_grid_insert_row(GTK_GRID(grid), 5); // Insert row at index 3
     gtk_grid_attach(GTK_GRID(grid), btn7, 0, 5, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), btnCurrtime, 1, 5, 1, 1); // span both columns
+    // CSS Grid Styling
+    GtkStyleContext *grid_context;
+    grid_context = gtk_widget_get_style_context(grid);
+    gtk_style_context_add_class(grid_context, "grid");
+    gtk_style_context_add_provider(grid_context, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+
     // Text Label
     gtk_container_add(GTK_CONTAINER(window), labelT);
     // Use printf to update the label text
     char text[100];
-    sprintf(text, "Paitin App.");
+    sprintf(text, "Patitin App.");
     gtk_label_set_markup(GTK_LABEL(labelT), text);
+     // CSS Label Styling
+    GtkStyleContext *Label_Patitin;
+    Label_Patitin = gtk_widget_get_style_context(labelT);
+    gtk_style_context_add_class(Label_Patitin, "Patitin");
+    gtk_style_context_add_provider(Label_Patitin, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+     // CSS Clock Styling
+    GtkStyleContext *clock_context;
+    clock_context = gtk_widget_get_style_context(labelC);
+    gtk_style_context_add_class(clock_context, "clock");
+    gtk_style_context_add_provider(clock_context, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
     // Button function
     g_signal_connect(btn1, "clicked", G_CALLBACK(on_button_clicked), NULL); // Connect the "clicked" signal of btn1 to the callback function
     g_signal_connect(btn2, "clicked", G_CALLBACK(on_button_clicked), NULL);
