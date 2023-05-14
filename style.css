@@ -1,0 +1,93 @@
+window {
+    background-color: #383737;
+    font-family: Sans;
+    font-size: 14px;
+}
+
+grid {
+    padding : 3rem;
+}
+
+.Patitin {
+    font-size: 32px;
+    font-family: Sans;
+}
+
+.clock {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: white;
+    border-style: groove;
+    border-radius: 10px;
+    border-width: 5px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 18px;
+    font-family: Sans;
+}
+
+.button {
+    background-color: rgb(97, 216, 117);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 18px;
+    font-family: Sans;
+}
+
+.button:hover {
+    background-color: rgb(84, 187, 101);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 18px;
+    font-family: Sans;
+}
+
+.buttonB {
+    background-color: rgb(197, 78, 78);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 18px;
+    font-family: Sans;
+}
+
+.buttonB:hover {
+    background-color: rgb(175, 69, 69);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 18px;
+    font-family: Sans;
+}
+
+.buttonN {
+    background-color: rgb(35, 33, 39);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 18px;
+    font-family: Sans;
+}
+.buttonN:hover {
+    background-color: rgb(121, 119, 128);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 18px;
+    font-family: Sans;
+}
+

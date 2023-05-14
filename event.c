@@ -4,6 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#define RED   "\x1B[31m"
+#define GRN   "\x1B[32m"
+#define YEL   "\x1B[33m"
+#define BLU   "\x1B[34m"
+#define MAG   "\x1B[35m"
+#define CYN   "\x1B[36m"
+#define WHT   "\x1B[37m"
+#define RESET "\x1B[0m"
 
 Stack *createStack(int size) {
   Stack *stack = (Stack *)malloc(sizeof(Stack));
@@ -385,15 +393,15 @@ void displayCurrentTime() {
   strftime(nowTime, sizeof(nowTime), "%H:%M", time_info);
   // Print the current date and local time
   sscanf(date_string, "%d/%d/%d", &dayTime, &monthTime, &yearTime);
-  printf("-----------------------\n");
-  printf("Date : %d/%d/%d\n", dayTime, monthTime, yearTime);
-  printf("Time : %s\n", nowTime);
+  printf(YEL"-----------------------\n"RESET);
+  printf(GRN"Date : %d/%d/%d\n", dayTime, monthTime, yearTime);
+  printf("Time : %s\n"RESET, nowTime);
 }
 
 void displayFavorite(Year *headYear) {
   Year *curYear = headYear->next;
   if (curYear == NULL) {
-    printf("No task\n");
+    printf(RED"No task\n"RESET);
   } else {
     while (curYear) {
       Month *curMonth = curYear->month->next;
@@ -423,7 +431,7 @@ void displayFavorite(Year *headYear) {
 void displayOriginalDate(Year *headYear, Event *current) {
   Year *curYear = headYear->next;
   if (curYear == NULL) {
-    printf("No task\n");
+    printf(RED"No task\n"RESET);
   } else {
     while (curYear) {
       Month *curMonth = curYear->month->next;
@@ -449,10 +457,10 @@ void displayOriginalDate(Year *headYear, Event *current) {
 }
 
 void displayByEvent(Year *headYear, char eventName[]) {
-  printf("-----------------------\n");
+  printf(YEL"-----------------------\n"RESET);
   Year *curYear = headYear->next;
   if (curYear == NULL) {
-    printf("No task\n");
+    printf(RED"No task\n"RESET);
   } else {
     while (curYear) {
       Month *curMonth = curYear->month->next;
@@ -499,7 +507,7 @@ void displayByDate(Year *headYear, int year, int month, int day) {
     printf("Year: %d Month: %d Day: %d\n", year, month, day);
     displayDayTask(current);
   } else {
-    printf("No task\n");
+    printf(RED"No task\n"RESET);
   }
 }
 
@@ -608,11 +616,11 @@ void displayOutdated(Stack *outdated) {
 }
 
 void displayAll(Year *headYear, int opr, int *allTask) {
-  printf("-----------------------\n");
+  printf(YEL"-----------------------\n"RESET);
   Year *curYear = headYear->next;
   int id = 1;
   if (curYear == NULL) {
-    printf("No task\n");
+    printf(RED"No task\n"RESET);
   } else {
     // Use to edit event
     if (opr == 1) {
@@ -723,7 +731,7 @@ void deleteEvent(Year *headYear, Stack *outdated, int year, int month,
     }
   }
   if (curOutdatedDay) {
-    printf("--------------OUTDATED!!!--------------\n");
+    printf(RED"--------------OUTDATED!!!--------------\n"RESET);
     printf("Year: %d Month: %d Day: %d\n", year, month, day);
     Event *curEvent = curOutdatedDay->event->next;
     while (curEvent) {
@@ -734,7 +742,7 @@ void deleteEvent(Year *headYear, Stack *outdated, int year, int month,
     }
   }
   if (!curDay && !curOutdatedDay) {
-    printf("Sorry you don't have any task in that date\n");
+    printf(YEL"Sorry you don't have any task in that date\n"RESET);
     return;
   }
 
@@ -755,11 +763,11 @@ void deleteEvent(Year *headYear, Stack *outdated, int year, int month,
     Event *prevEvent = curDay->event;
     while (curEvent) {
       if (id == task) {
-        printf("Remember delete can't be undo\n");
+        printf(RED"Remember delete can't be undo\n"RESET);
         int choice = 0;
         while (choice != 1 && choice != 2) {
-          printf("Choice 1: Yes (Delete it)\n");
-          printf("Choice 2: No (Cancel it)\n");
+          printf(GRN"Choice 1: Yes (Delete it)\n"RESET);
+          printf(RED"Choice 2: No (Cancel it)\n"RESET);
           printf("Select choice : ");
           fgets(buffer, 120, stdin);
           enterRemover(buffer);
@@ -810,10 +818,10 @@ void deleteEvent(Year *headYear, Stack *outdated, int year, int month,
               }
             }
           }
-          printf("Deletion Success!!!\n");
+          printf(GRN"Deletion Success!!!\n"RESET);
           return;
         } else {
-          printf("Cancel Success!!!\n");
+          printf(GRN"Cancel Success!!!\n"RESET);
           return;
         }
       }
@@ -830,11 +838,11 @@ void deleteEvent(Year *headYear, Stack *outdated, int year, int month,
     while (curEvent) {
       printf("Here %d %d\n", id, task);
       if (id == task) {
-        printf("Remember delete can't be undo\n");
+        printf(RED"Remember delete can't be undo\n"RESET);
         int choice = 0;
         while (choice != 1 && choice != 2) {
-          printf("Choice 1: Yes (Delete it)\n");
-          printf("Choice 2: No (Cancel it)\n");
+          printf(GRN"Choice 1: Yes (Delete it)\n"RESET);
+          printf(RED"Choice 2: No (Cancel it)\n"RESET);
           printf("Select choice : ");
           fgets(buffer, 120, stdin);
           enterRemover(buffer);
@@ -1098,7 +1106,7 @@ void userInput(int *year, int *month, int *day, char *start, char *end,
     fgets(buffer, 120, stdin);
     enterRemover(buffer);
     while (!validateDate(buffer)) {
-      printf("wrong format please try again\n");
+      printf(RED"wrong format please try again\n"RESET);
       printf("input dd/mm/yy (01/01/23): ");
       fgets(buffer, 120, stdin);
       enterRemover(buffer);
@@ -1111,7 +1119,7 @@ void userInput(int *year, int *month, int *day, char *start, char *end,
     fgets(buffer, 120, stdin);
     enterRemover(buffer);
     while (!findDateBlank(buffer, day, month, year)) {
-      printf("wrong format please try again\n");
+      printf(RED"wrong format please try again\n"RESET);
       printf("input dd/mm/yy (01/01/23): ");
       fgets(buffer, 120, stdin);
     }
@@ -1123,7 +1131,7 @@ void userInput(int *year, int *month, int *day, char *start, char *end,
     fgets(start, 12, stdin);
     enterRemover(start);
     while (!findTimeBlank(start)) {
-      printf("wrong format please try again\n");
+      printf(RED"wrong format please try again\n"RESET);
       printf("input time in format (xx:yy)\n");
       printf("Time to start: ");
       fgets(start, 12, stdin);
@@ -1134,7 +1142,7 @@ void userInput(int *year, int *month, int *day, char *start, char *end,
     fgets(end, 12, stdin);
     enterRemover(end);
     while (!findTimeBlank(end)) {
-      printf("wrong format please try again\n");
+      printf(RED"wrong format please try again\n"RESET);
       printf("input time in format (xx:yy)\n");
       printf("Time to end: ");
       fgets(end, 12, stdin);
@@ -1148,7 +1156,7 @@ void userInput(int *year, int *month, int *day, char *start, char *end,
     fgets(start, 12, stdin);
     enterRemover(start);
     while (!validateTime(start)) {
-      printf("wrong format please try again\n");
+      printf(RED"wrong format please try again\n"RESET);
       printf("input time in format (xx:yy)\n");
       printf("Time to start: ");
       fgets(start, 12, stdin);
@@ -1159,7 +1167,7 @@ void userInput(int *year, int *month, int *day, char *start, char *end,
     fgets(end, 12, stdin);
     enterRemover(end);
     while (!validateTime(end)) {
-      printf("wrong format please try again\n");
+      printf(RED"wrong format please try again\n"RESET);
       printf("input time in format (xx:yy)\n");
       printf("Time to end: ");
       fgets(end, 12, stdin);
@@ -1167,14 +1175,14 @@ void userInput(int *year, int *month, int *day, char *start, char *end,
     }
 
     while (!(strcmp(start, end) < 0)) {
-      printf("uncorrect time period please time again\n");
+      printf(RED"uncorrect time period please time again\n"RESET);
 
       printf("input time to start and end in format (xx:yy)\n");
       printf("Time to start: ");
       fgets(start, 12, stdin);
       enterRemover(start);
       while (!validateTime(start)) {
-        printf("wrong format please try again\n");
+        printf(RED"wrong format please try again\n"RESET);
         printf("input time in format (xx:yy)\n");
         printf("Time to start: ");
         fgets(start, 12, stdin);
@@ -1185,7 +1193,7 @@ void userInput(int *year, int *month, int *day, char *start, char *end,
       fgets(end, 12, stdin);
       enterRemover(end);
       while (!validateTime(end)) {
-        printf("wrong format please try again\n");
+        printf(RED"wrong format please try again\n"RESET);
         printf("input time in format (xx:yy)\n");
         printf("Time to end: ");
         fgets(end, 12, stdin);
@@ -1203,14 +1211,14 @@ void userInput(int *year, int *month, int *day, char *start, char *end,
   }
 
   if (type == 1) {
-    printf("Please rate how important this task is\n");
-    printf("inset \"-1\" if you think that not important\n");
+    printf(YEL"Please rate how important this task is\n");
+    printf("inset \"-1\" if you think that not important\n"RESET);
     printf("input( any number that more than or equal zero ) : ");
     fgets(buffer, 120, stdin);
     enterRemover(buffer);
     sscanf(buffer, "%d", favorite);
     while (*favorite < -1) {
-      printf("wrong format please try again\n");
+      printf(RED"wrong format please try again\n"RESET);
       printf("Please rate how important this task is \n");
       printf("inset \"-1\" if you think that not important\n");
       printf("input( any number that more than zero ) : ");
@@ -1227,7 +1235,7 @@ void userInput(int *year, int *month, int *day, char *start, char *end,
     enterRemover(buffer);
     while (!findFavBlank(buffer, favorite)) {
       printf("%d\n", *favorite);
-      printf("wrong format please try again\n");
+      printf(RED"wrong format please try again\n"RESET);
       printf("Please rate how important this task is \n");
       printf("input( any number that more than zero ) : ");
       fgets(buffer, 120, stdin);
@@ -1255,7 +1263,7 @@ void edit(Year *headYear, int year, int month, int day) {
       id++;
     }
   } else {
-    printf("Sorry you don't have any task in that date\n");
+    printf(YEL"Sorry you don't have any task in that date\n"RESET);
     return;
   }
 
@@ -1281,9 +1289,9 @@ void edit(Year *headYear, int year, int month, int day) {
     if (id == task) {
       // Get What to edit
 
-      printf("Please insert all data you want to edit\n");
+      printf(YEL"Please insert all data you want to edit\n");
       printf("(leave \"--\" if don't want to edit in that fields we will use "
-             "the old ones)\n");
+             "the old ones)\n"RESET);
       userInput(&editYear, &editMonth, &editDay, editStart, editEnd, editEvent,
                 &editFavorite, 4);
 
@@ -1303,8 +1311,8 @@ void edit(Year *headYear, int year, int month, int day) {
         strcpy(editEvent, curEvent->event);
       while (!validateDateNum(editYear, editMonth, editDay) ||
              !(strcmp(editStart, editEnd) < 0)) {
-        printf("There is something wrong when using the new data and the old "
-               "data together please try again\n");
+        printf(RED"There is something wrong when using the new data and the old "
+               "data together please try again\n"RESET);
         userInput(&editYear, &editMonth, &editDay, editStart, editEnd,
                   editEvent, &editFavorite, 4);
         if (editYear == -1)
@@ -1425,7 +1433,7 @@ void cleanOutdatedData(Year *headYear, Stack *stack) {
           if (cntDel > 0) {
             deleteFirstEvent(headYear, cntDel, curYear->year, curMonth->month,
                              prevDay);
-            printf("%d tasks has been outdated\n", cntDel);
+            printf(YEL"%d tasks has been outdated\n"RESET, cntDel);
             cntDel = 0;
           }
           // printf("After day\n");
@@ -1451,7 +1459,7 @@ void saveToText(Year *headYear) {
   FILE *fp = fopen("dateList.txt", "w");
   Year *curYear = headYear->next;
   if (curYear == NULL) {
-    printf("No task\n");
+    printf(RED"No task\n"RESET);
   } else {
     while (curYear) {
       Month *curMonth = curYear->month->next;
